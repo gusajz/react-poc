@@ -44,6 +44,10 @@ class VizMgrStore extends Marty.Store {
     console.log('ADD_VIZ: ' + vizType);
     this.hasChanged();
   }
+
+  getVisualizations() {
+    return this.visualizations;
+  }
 }
 
 module.exports = Marty.register(VizMgrStore);

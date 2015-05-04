@@ -1,0 +1,39 @@
+{
+  "name": "poc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "babelify": "^6.0.2",
+    "browser-sync": "^2.6.11",
+    "browserify": "^10.0.0",
+    "gulp": "^3.8.11",
+    "gulp-babel": "^5.1.0",
+    "gulp-less": "^3.0.3",
+    "immutable": "^3.7.2",
+    "marty": "^0.9.12",
+    "react": "^0.13.2",
+    "uuid-js": "^0.7.5"
+  },
+  "devDependencies": {
+    "del": "^1.1.1",
+    "glob": "^5.0.5",
+    "gulp": "^3.8.11",
+    "gulp-browserify": "^0.5.1",
+    "gulp-concat": "^2.5.2",
+    "gulp-connect": "^2.2.0",
+    "gulp-less": "^3.0.3",
+    "react": "^0.13.2",
+    "react-tools": "^0.13.2",
+    "reactify": "^1.1.0",
+    "through2": "^0.6.5",
+    "vinyl-source-stream": "^1.1.0",
+    "vinyl-transform": "^1.0.0",
+    "watchify": "^3.2.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

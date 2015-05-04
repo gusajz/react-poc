@@ -27,9 +27,11 @@ var sources = {
 }
 
 gulp.task('js', function() {
+    var sourcemaps = require('gulp-sourcemaps');
     var browserify = require('browserify');
     var babelify = require("babelify");
     var reactify = require('reactify');
+    var buffer = require('vinyl-buffer');
     var source = require('vinyl-source-stream');
 
     
@@ -45,6 +47,9 @@ gulp.task('js', function() {
 
     return bundleStream
         .pipe(source('bundle.js'))
+        .pipe(buffer())
+        .pipe(sourcemaps.init({loadMaps: true}))
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest(paths.build.js));
 });
 

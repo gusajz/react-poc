@@ -9,15 +9,37 @@ var Immutable = require('immutable');
 // var VisualizationsManagerActions = require('../actions/VisualizationsManagerActions');
 // var VisualizationsManager = require('../stores/VisualizationsManager');
 
+
+class VizContainer extends React.Component {
+
+  render() {
+    return (
+      <div>
+        {this.props.children}
+        <button onClick={this.handleClose.bind(this)}>Close</button>
+      </div>
+    );
+  }
+
+  handleClose() {
+    VizMgrActions.removeViz(this.props.vizId);
+  }
+}
+
+VizContainer.propTypes = {
+  children: React.PropTypes.element.isRequired
+}
+
+
 class VizFactory {
   constructor() {
     this.charts = Immutable.Map({
-      'histogram': charts.Line,
-      'timeline': charts.Bar
+      'histogram': charts.Bar,
+      'timeline': charts.Line
     });
   }
 
-  create(type, id) {
+  create(type) {
     var data = {
       labels: ["January", "February", "March", "April", "May", "June", "July"],
       datasets: [
@@ -43,7 +65,7 @@ class VizFactory {
           }
       ]
     };
-    return React.createElement(this.charts.get(type), { key: id, data: data, options:{showScale: false} });
+    return React.createElement(this.charts.get(type), { data: data, options:{showScale: false} });
   }
 }
 
@@ -68,7 +90,7 @@ class App extends React.Component {
           <option value="timeline">Timeline</option>
         </select>
         <button onClick={this.handleClick.bind(this)}>Add viz</button>
-        {this.props.visualizations.entrySeq().map(viz => this.vizFactory.create(viz[1].type, viz[0]))}
+        {this.props.visualizations.entrySeq().map(viz => <VizContainer key={viz[0]} vizId={viz[0]}>{this.vizFactory.create(viz[1].type)}</VizContainer>)}
       </div>
     );
   }

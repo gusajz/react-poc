@@ -36,12 +36,18 @@ class VizMgrStore extends Marty.Store {
     super(options);
     this.visualizations = Immutable.Map({});
     this.handlers = {
-      addViz: Constants.ADD_VIZ
+      addViz: Constants.ADD_VIZ,
+      removeViz: Constants.REMOVE_VIZ
     };
   }
   addViz(vizType, vizId) {
     this.visualizations = this.visualizations.set(vizId, { type: vizType });
     console.log('ADD_VIZ: ' + vizType);
+    this.hasChanged();
+  }
+  removeViz(vizId) {
+    this.visualizations = this.visualizations.delete(vizId);
+    console.log('REMOVE_VIZ: ' + vizId);
     this.hasChanged();
   }
 

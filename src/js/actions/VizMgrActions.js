@@ -10,6 +10,9 @@ class VizMgrActionCreators extends Marty.ActionCreators {
     addViz(vizType) {
         this.dispatch(Constants.ADD_VIZ, vizType, UUID.create().toString());
     }
+    removeViz(id) {
+        this.dispatch(Constants.REMOVE_VIZ, id);
+    }
 }
 
 module.exports = Marty.register(VizMgrActionCreators);

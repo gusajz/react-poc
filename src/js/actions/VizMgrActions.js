@@ -8,7 +8,7 @@ var UUID = require('uuid-js');
 
 var VizMgrStore = require('../stores/VizMgrStore');
 
-var VizFactory = require('../factories/VizFactory');
+var VizFactory = require('../visualizations/VizFactory');
 
 
 class VizMgrActionCreators extends Marty.ActionCreators {

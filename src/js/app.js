@@ -1,7 +1,6 @@
 var React = require('react');
 var App = require('./components/App.react');
-var VizFactory = require('./factories/VizFactory');
-
+var VizFactory = require('./visualizations/VizFactory');
 
 var Dispatcher = require('marty').dispatcher.getDefault();
 
@@ -10,20 +9,9 @@ var dispatchToken = Dispatcher.register(function (action) {
 });
 
 
-var HistogramApi = require('./sources/HistogramApi');
-var charts = require("react-chartjs");
 
-
-debugger; 
-VizFactory.register('histogram', new VizFactory.VizDef({
-    component: charts.Bar,
-    api: HistogramApi
-}));
-
-VizFactory.register('timeline', new VizFactory.VizDef({
-    component: charts.Line,
-    api: HistogramApi
-}));
+VizFactory.register('histogram', require('./visualizations/histogram'));
+VizFactory.register('timeline', require('./visualizations/timeline'));
     
 React.render(
   <App />,

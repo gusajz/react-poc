@@ -27,4 +27,4 @@ class VizFactory {
 
 
 var vizFactoryInstance = new VizFactory();
-module.exports = vizFactoryInstance;13
+module.exports = vizFactoryInstance;

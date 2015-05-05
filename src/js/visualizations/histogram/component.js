@@ -25,7 +25,10 @@ class HistogramChart extends React.Component {
         var selection = assign(this.state.selection, {dragging: null});
         this.setState({selection: selection});
 
-        console.log(this.refs.chart.eachBars);
+        // var selectedBars = [];
+        // this.refs.chart.getChart().eachBars(function(bar) {
+        //     if (bar.x <= this.state.selection.)
+        // });
         e.preventDefault();
     }
 
@@ -33,8 +36,10 @@ class HistogramChart extends React.Component {
         var mouse = this.getMousePosition(e);
         this.setState({
             selection: {
-                height: '1px',
-                width: '1px', 
+                top: mouse.y,
+                bottom: mouse.y, 
+                left: mouse.x,
+                right: mouse.x,
                 dragging: {
                     initialX: mouse.x,
                     initialY: mouse.y
@@ -58,8 +63,8 @@ class HistogramChart extends React.Component {
                 selection: {
                     top: top,
                     left: left,
-                    width: right - left,
-                    height: bottom - top,
+                    right: right,
+                    bottom: bottom,
                     dragging: this.state.selection.dragging
                 }
             });
@@ -71,8 +76,8 @@ class HistogramChart extends React.Component {
     render() {
         if (null !== this.state.selection) {
             var selectionDivStyle = {
-                height: this.state.selection.height + 'px',
-                width: this.state.selection.width + 'px',
+                height: (this.state.selection.bottom - this.state.selection.top) + 'px',
+                width: (this.state.selection.right - this.state.selection.left) + 'px',
                 backgroundColor: 'rgba(210, 210, 210, 0.46)', 
                 position: 'absolute',
                 left: this.state.selection.left + 'px',
@@ -90,7 +95,7 @@ class HistogramChart extends React.Component {
 
         return <div style={containerStyle} onMouseDown={this.handleMouseDown.bind(this)} onMouseMove={this.handleMouseMove.bind(this)} onMouseUp={this.handleMouseUp.bind(this)}>
             <div style={selectionDivStyle}/>
-            <charts.Bar refs="chart" {...this.props}/>
+            <charts.Bar ref="chart" {...this.props}/>
         </div>
     }
 }

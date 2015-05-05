@@ -1,23 +1,17 @@
 var Immutable = require('immutable');
-var charts = require("react-chartjs");
 var React = require('react');
 
 var VizDef = Immutable.Record({component: null, api: null})
 
-var HistogramApi = require('../sources/HistogramApi');
 
 class VizFactory {
   constructor() {
-    this.charts = Immutable.Map({
-      'histogram': new VizDef({
-        component: charts.Bar,
-        api: HistogramApi
-      }),
-      'timeline': new VizDef({
-        component: charts.Line,
-        api: HistogramApi
-      })
-    });
+    this.charts = Immutable.Map();
+    this.VizDef = VizDef;
+  }
+
+  register(vizType, vizDef) {
+    this.charts = this.charts.set(vizType, vizDef);
   }
 
   getApi(type) {
@@ -30,4 +24,7 @@ class VizFactory {
 }
 
 
-module.exports = new VizFactory();
+
+
+var vizFactoryInstance = new VizFactory();
+module.exports = vizFactoryInstance;13

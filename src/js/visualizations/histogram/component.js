@@ -1,8 +1,6 @@
 var React = require('react');
 
 var charts = require("react-chartjs");
-var _ = require('lodash');
-
 
 class HistogramChart extends React.Component {
     constructor(props) {
@@ -22,7 +20,7 @@ class HistogramChart extends React.Component {
     }
 
     handleMouseUp(e) {
-        var selection = _.merge(this.state.selection, {dragging: null});
+        var selection = Object.assign(this.state.selection, {dragging: null});
         this.setState({selection: selection});
         e.preventDefault();
     }

@@ -18,8 +18,16 @@ class VizFactory {
     return this.charts.get(type).api;
   }
 
+  handleSelectionChange(data) {
+    alert(data);
+  }
+  
   createComponent(type, data) {
-    return React.createElement(this.charts.get(type).component, { data: data.toJS(), options:{showScale: false} });
+    return React.createElement(this.charts.get(type).component, { 
+      data: data.toJS(), 
+      options:{showScale: false}, 
+      onSelectionChange: this.handleSelectionChange.bind(this)
+    });
   }
 }
 

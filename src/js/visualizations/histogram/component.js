@@ -25,10 +25,9 @@ class HistogramChart extends React.Component {
         var selection = assign(this.state.selection, {dragging: null});
         this.setState({selection: selection});
 
-        // var selectedBars = [];
-        // this.refs.chart.getChart().eachBars(function(bar) {
-        //     if (bar.x <= this.state.selection.)
-        // });
+        if (this.props.onSelectionChange) {
+            this.props.onSelectionChange(this.getSelection());
+        }
         e.preventDefault();
     }
 
@@ -72,6 +71,18 @@ class HistogramChart extends React.Component {
         e.preventDefault();
     }
         
+    getSelection() {
+        if (this.state.selection === null)
+            return [];
+
+        var selectedBars = [];
+        this.refs.chart.getChart().eachBars(bar => {
+            if ((bar.x <= this.state.selection.right) && (bar.x >= this.state.selection.left)) {
+                selectedBars.push(bar);
+            }
+        });
+        return selectedBars;
+    }
 
     render() {
         if (null !== this.state.selection) {
@@ -98,6 +109,10 @@ class HistogramChart extends React.Component {
             <charts.Bar ref="chart" {...this.props}/>
         </div>
     }
+}
+
+HistogramChart.propTypes = {
+    onSelectionChange: React.PropTypes.func
 }
 
 module.exports = HistogramChart;

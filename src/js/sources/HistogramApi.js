@@ -64,7 +64,7 @@ class HistogramApi  {
 
     return new Promise(function(resolve, reject) {
       setTimeout(function() {
-        if (Math.random() < 0.9) {
+        if (Math.random() < 1) {
           resolve(data[segmentation]);
         } else {
           reject(new Error("Error!!!"));

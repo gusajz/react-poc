@@ -30,21 +30,35 @@ var Immutable = require('immutable');
 
 var Constants = require('../constants/VizMgrConstants');
 
+var VizData = Immutable.Record({id: null, type: null, data: null, segmentation: null, projection: null});
+
 
 class VizMgrStore extends Marty.Store {
   constructor(options) {
     super(options);
     this.visualizations = Immutable.Map({});
     this.handlers = {
-      addViz: Constants.ADD_VIZ,
-      removeViz: Constants.REMOVE_VIZ
+      removeViz: Constants.REMOVE_VIZ,
+      updateViz: Constants.UPDATE_VIZ
     };
   }
-  addViz(vizType, vizId) {
-    this.visualizations = this.visualizations.set(vizId, { type: vizType });
-    console.log('ADD_VIZ: ' + vizType);
+
+  updateViz(vizId, vizType, segmentation, projection, data) {
+    var newData = this.visualizations
+      .get(vizId, new VizData({id: vizId, type: vizType}))
+      .merge({segmentation: segmentation, projection: projection, data: data});
+
+    this.visualizations = this.visualizations.set(vizId, newData);
+    console.log('UPDATE_VIZ');
     this.hasChanged();
   }
+
+  // addViz(vizType, vizId) {
+  //   this.visualizations = this.visualizations.set(vizId, new VizData({ id: vizId, type: vizType }));
+  //   console.log('ADD_VIZ: ' + vizType);
+  //   this.hasChanged();
+  // }
+
   removeViz(vizId) {
     this.visualizations = this.visualizations.delete(vizId);
     console.log('REMOVE_VIZ: ' + vizId);

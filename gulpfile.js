@@ -47,7 +47,10 @@ function browserifyTask() {
     var bundleStream = watchify(browserify(opts)
         .transform(babelify)
         .transform(reactify))
-        .bundle();
+        .bundle()
+        .on('error', function(err) {
+            console.error('Browserify Error', err.toString());
+        });
 
     return bundleStream
         .pipe(source('bundle.js'))

@@ -1,8 +1,15 @@
 var Promise = require('bluebird');
+var rn = require('random-number');
 
 class HistogramApi  {
   getData(segmentation, projection) {
-     var data = {
+    var rndOptions = {
+      min:  0, 
+      max:  100, 
+      integer: true
+    }
+
+    var data = {
       labels: ["January", "February", "March", "April", "May", "June", "July"],
       datasets: [
           {
@@ -13,7 +20,7 @@ class HistogramApi  {
               pointStrokeColor: "#fff",
               pointHighlightFill: "#fff",
               pointHighlightStroke: "rgba(220,220,220,1)",
-              data: [65, 59, 80, 81, 56, 55, 40]
+              data: [rn(rndOptions), rn(rndOptions), rn(rndOptions), rn(rndOptions), rn(rndOptions), rn(rndOptions), rn(rndOptions)]
           },
           {
               label: "My Second dataset",
@@ -23,17 +30,17 @@ class HistogramApi  {
               pointStrokeColor: "#fff",
               pointHighlightFill: "#fff",
               pointHighlightStroke: "rgba(151,187,205,1)",
-              data: [28, 48, 40, 19, 86, 27, 90]
+              data: [rn(rndOptions), rn(rndOptions), rn(rndOptions), rn(rndOptions), rn(rndOptions), rn(rndOptions), rn(rndOptions)]
           }
       ]
     };
 
     return new Promise(function(resolve, reject) {
       setTimeout(function() {
-        if (Math.random() < 0.7) {
+        if (Math.random() < 0.9) {
           resolve(data);
         } else {
-          reject(new Exception("Error!!!"));
+          reject(new Error("Error!!!"));
         }
       }, 500);  
     })
@@ -41,4 +48,4 @@ class HistogramApi  {
   
 }
 
-module.exports = HistogramApi;
+module.exports = new HistogramApi();

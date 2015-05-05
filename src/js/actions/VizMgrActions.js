@@ -6,12 +6,29 @@ var Constants = require('../constants/VizMgrConstants');
 
 var UUID = require('uuid-js');
 
+var VizMgrStore = require('../stores/VizMgrStore');
+
+var VizFactory = require('../factories/VizFactory');
+
+
 class VizMgrActionCreators extends Marty.ActionCreators {
-    addViz(vizType) {
-        this.dispatch(Constants.ADD_VIZ, vizType, UUID.create().toString());
+    getData(vizType, segmentation, projection) {
+        return VizFactory
+            .getApi(vizType)
+            .getData(segmentation, projection)
+
     }
-    removeViz(id) {
-        this.dispatch(Constants.REMOVE_VIZ, id);
+    addViz(vizType, segmentation, projection) {
+        this.getData(vizType, segmentation, projection)
+            .then(data => this.dispatch(Constants.UPDATE_VIZ, UUID.create().toString(), vizType, segmentation, projection, data));
+    }
+    removeViz(vizId) {
+        this.dispatch(Constants.REMOVE_VIZ, vizId);
+    }
+    updateParameters(vizId, segmentation, projection) {
+        var viz = VizMgrStore.getVisualizations().get(vizId)
+        this.getData(viz.type, segmentation, projection)
+            .then(data => this.dispatch(Constants.UPDATE_VIZ, vizId, viz.type, segmentation, projection, data));
     }
 }
 

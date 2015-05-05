@@ -98,7 +98,11 @@ class App extends React.Component {
           <option value="timeline">Timeline</option>
         </select>
         <button onClick={this.handleClick.bind(this)}>Add viz</button>
-        {this.props.visualizations.entrySeq().map(viz => <VizContainer key={viz[0]} vizId={viz[0]}>{this.vizFactory.create(viz[1].type)}</VizContainer>)}
+        {
+          this.props.visualizations.entrySeq().map(viz => 
+            <VizContainer key={viz[0]} vizId={viz[0]}>{this.vizFactory.create(viz[1].type)}</VizContainer>
+          )
+        }
       </div>
     );
   }

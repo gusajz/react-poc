@@ -26,7 +26,10 @@ var sources = {
     js: path.join(paths.src.js, '**/*.js*')
 }
 
-gulp.task('js', function() {
+
+function browserifyTask() {
+    var watchify = require('watchify');
+    var assign = require('lodash.assign');
     var sourcemaps = require('gulp-sourcemaps');
     var browserify = require('browserify');
     var babelify = require("babelify");
@@ -34,15 +37,16 @@ gulp.task('js', function() {
     var buffer = require('vinyl-buffer');
     var source = require('vinyl-source-stream');
 
-    
-    console.log('Browserifying: ' + sources.main);
+    var customOpts = {
+        entries: [ sources.main ],
+        debug: true
+    }
 
-    var bundleStream = browserify({
-            entries: sources.main,
-            debug: true
-        })
+    var opts = assign({}, watchify.args, customOpts);
+
+    var bundleStream = watchify(browserify(opts)
         .transform(babelify)
-        .transform(reactify)
+        .transform(reactify))
         .bundle();
 
     return bundleStream
@@ -51,6 +55,11 @@ gulp.task('js', function() {
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(paths.build.js));
+
+}
+
+gulp.task('js', function() { 
+    browserifyTask()
 });
 
 gulp.task('clean', function(cb) {
@@ -91,8 +100,8 @@ gulp.task('html', function() {
 
 gulp.task('watch', function() {
     gulp.watch(sources.html, ['html']);
-    gulp.watch(sources.js, ['js']);
     gulp.watch(sources.less, ['css']);
+    gulp.watch(sources.js, ['js']);
 });
 
 

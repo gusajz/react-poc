@@ -85,6 +85,14 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <select ref="segmentation" defaultValue={"female"}>
+          <option value="female">Female</option>
+          <option value="male">Male</option>
+        </select>
+        <select ref="projection" defaultValue={"arpu"}>
+          <option value="arpu">Arpu</option>
+          <option value="expending">Expending</option>
+        </select>
         <select ref="vizType" defaultValue={"histogram"}>
           <option value="histogram">Histogram</option>
           <option value="timeline">Timeline</option>

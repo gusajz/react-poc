@@ -9,7 +9,9 @@ var VizFactory = require('../visualizations/VizFactory');
 
 
 class VizContainer extends React.Component {
+
   updateParams() {
+
     var segmentation = this.refs.segmentation.getDOMNode().value;
     var projection = this.refs.projection.getDOMNode().value;
 
@@ -75,7 +77,9 @@ class App extends React.Component {
         <button onClick={this.handleClick.bind(this)}>Add viz</button>
         {
           this.props.visualizations.entrySeq().map(viz => 
-            <VizContainer key={viz[0]} vizId={viz[0]}>{VizFactory.createComponent(viz[1].type, viz[1].data)}</VizContainer>
+            <VizContainer key={viz[0]} vizId={viz[0]}>
+              {VizFactory.createComponent(viz[1].type, viz[1].data)}
+            </VizContainer>
           )
         }
       </div>

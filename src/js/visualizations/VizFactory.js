@@ -3,6 +3,8 @@ var React = require('react');
 
 var VizDef = Immutable.Record({component: null, api: null})
 
+var assign = require('lodash.assign');
+
 
 class VizFactory {
   constructor() {
@@ -18,16 +20,13 @@ class VizFactory {
     return this.charts.get(type).api;
   }
 
-  handleSelectionChange(data) {
-    alert(data);
-  }
-  
-  createComponent(type, data) {
-    return React.createElement(this.charts.get(type).component, { 
+  createComponent(type, data, opts) {
+    var defaultOpts = { 
       data: data.toJS(), 
-      options:{showScale: false}, 
-      onSelectionChange: this.handleSelectionChange.bind(this)
-    });
+      options:{showScale: false}
+    };
+
+    return React.createElement(this.charts.get(type).component, assign(defaultOpts, opts));
   }
 }
 

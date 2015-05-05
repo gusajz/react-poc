@@ -2,7 +2,7 @@ var React = require('react');
 var Marty = require('marty');
 var VizMgrActions = require('../actions/VizMgrActions');
 var VizMgrStore = require('../stores/VizMgrStore');
-var VizFactory = require('../factories/VizFactory');
+var VizFactory = require('../visualizations/VizFactory');
 
 var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;

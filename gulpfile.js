@@ -45,8 +45,8 @@ function browserifyTask() {
     var opts = assign({}, watchify.args, customOpts);
 
     var bundleStream = watchify(browserify(opts)
-        .transform(babelify)
         .transform(reactify))
+        .transform(babelify.configure({sourceMap: true}))
         .bundle()
         .on('error', function(err) {
             console.error('Browserify Error', err.toString());
@@ -66,7 +66,7 @@ gulp.task('js', function() {
 });
 
 gulp.task('clean', function(cb) {
-    var del = require('del');
+    var del = require('rimraf');
 
     del(paths.build.root, cb);
 });

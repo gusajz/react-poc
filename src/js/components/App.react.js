@@ -9,10 +9,33 @@ var VizFactory = require('../factories/VizFactory');
 
 
 class VizContainer extends React.Component {
+  updateParams() {
+    var segmentation = this.refs.segmentation.getDOMNode().value;
+    var projection = this.refs.projection.getDOMNode().value;
+
+    VizMgrActions.updateParameters(this.props.vizId, segmentation, projection)
+  }
+
+  handleSegmentationChange() {
+    this.updateParams();
+  }
+
+  handleProjectionChange() {
+    this.updateParams();    
+  }
 
   render() {
     return (
       <div>
+        <select ref="segmentation" defaultValue={"female"} onChange={this.handleSegmentationChange.bind(this)}>
+          <option value="female">Female</option>
+          <option value="male">Male</option>
+        </select>
+        <select ref="projection" defaultValue={"arpu"} onChange={this.handleProjectionChange.bind(this)}>
+          <option value="arpu">Arpu</option>
+          <option value="expending">Expending</option>
+        </select>
+
         {this.props.children}
         <button onClick={this.handleClose.bind(this)}>Close</button>
       </div>
@@ -38,39 +61,13 @@ class App extends React.Component {
 
   handleClick() {
     var vizType = this.refs.vizType.getDOMNode().value;
-    var segmentation = this.refs.segmentation.getDOMNode().value;
-    var projection = this.refs.projection.getDOMNode().value;
-    VizMgrActions.addViz(vizType, segmentation, projection);
+    VizMgrActions.addViz(vizType, "female", "arpu");
   }
 
-  updateParams() {
-    var segmentation = this.refs.segmentation.getDOMNode().value;
-    var projection = this.refs.projection.getDOMNode().value;
-
-    this.props.visualizations.map((vizData, vizId) => 
-      VizMgrActions.updateParameters(vizId, segmentation, projection)
-    );  
-  }
-
-  handleSegmentationChange() {
-    this.updateParams();
-  }
-
-  handleProjectionChange() {
-    this.updateParams();    
-  }
 
   render() {
     return (
       <div>
-        <select ref="segmentation" defaultValue={"female"} onChange={this.handleSegmentationChange.bind(this)}>
-          <option value="female">Female</option>
-          <option value="male">Male</option>
-        </select>
-        <select ref="projection" defaultValue={"arpu"} onChange={this.handleProjectionChange.bind(this)}>
-          <option value="arpu">Arpu</option>
-          <option value="expending">Expending</option>
-        </select>
         <select ref="vizType" defaultValue={"histogram"}>
           <option value="histogram">Histogram</option>
           <option value="timeline">Timeline</option>

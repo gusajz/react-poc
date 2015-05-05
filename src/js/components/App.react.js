@@ -4,6 +4,9 @@ var VizMgrActions = require('../actions/VizMgrActions');
 var VizMgrStore = require('../stores/VizMgrStore');
 var VizFactory = require('../factories/VizFactory');
 
+var mui = require('material-ui');
+var RaisedButton = mui.RaisedButton;
+
 // var VisualizationsManagerActions = require('../actions/VisualizationsManagerActions');
 // var VisualizationsManager = require('../stores/VisualizationsManager');
 
@@ -35,8 +38,10 @@ class VizContainer extends React.Component {
           <option value="arpu">Arpu</option>
           <option value="expending">Expending</option>
         </select>
-
+        <RaisedButton label="Default" />
+        <br/>
         {this.props.children}
+        <br/>
         <button onClick={this.handleClose.bind(this)}>Close</button>
       </div>
     );

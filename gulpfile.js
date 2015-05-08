@@ -1,19 +1,22 @@
 'use strict';
 
 var gulp = require('gulp');
-
+var autoprefixer = require('gulp-autoprefixer');
+var handleErrors = require('./gulp-handleErrors');
 
 var paths = {
     src: {
         root: 'src',
         less: 'src/less',
-        js: 'src/js'
+        js: 'src/js',
+        fontIcons: 'src/less/font-icons/**'
     },
     build: {
         root: 'build',
         css: 'build/css',
         js: 'build/js',
-        html: 'build'
+        html: 'build',
+        fontIcons: 'build/css/font-icons'
     }
 }
 
@@ -22,7 +25,8 @@ var path = require('path');
 var sources = {
     main: path.join(__dirname, paths.src.js, 'app.js'),
     html: path.join(paths.src.root, '*.html'),
-    less: path.join(paths.src.less, '**/*.less'),
+    //less: path.join(paths.src.less, '**/*.less'),
+    less: path.join('src/less', 'app.less'),
     js: path.join(paths.src.js, '**/*.js*')
 }
 
@@ -71,19 +75,32 @@ gulp.task('clean', function(cb) {
     del(paths.build.root, cb);
 });
 
-
+/*
 gulp.task('css', function() {
     var less = require('gulp-less');
-
     return gulp.src(sources.less)
         .pipe(less({
             paths: [] // TODO: Import directives path
         }))
         .pipe(gulp.dest('build/css'))
 });
+*/
 
+gulp.task('css', function() {
+    var less = require('gulp-less');
+    return gulp.src(sources.less)
+        .pipe(less())
+        .on('error', handleErrors)
+        .pipe(autoprefixer({cascade: false, browsers: ['last 2 versions']}))
+        .pipe(gulp.dest('build/css'))
+});
 
-gulp.task('server', ['css', 'js', 'html', 'watch'], function() {
+gulp.task('fontIcons', function() {
+  return gulp.src(paths.src.fontIcons)
+    .pipe(gulp.dest(paths.build.fontIcons));
+});
+
+gulp.task('server', ['css', 'fontIcons', 'js', 'html', 'watch'], function() {
     var connect = require('gulp-connect');
 
     console.log('Server for: ' + paths.build.root);
@@ -103,7 +120,7 @@ gulp.task('html', function() {
 
 gulp.task('watch', function() {
     gulp.watch(sources.html, ['html']);
-    gulp.watch(sources.less, ['css']);
+    gulp.watch(sources.less, ['less']);
     gulp.watch(sources.js, ['js']);
 });
 

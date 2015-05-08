@@ -1,5 +1,7 @@
 var Promise = require('bluebird');
 var rn = require('random-number');
+var _ = require('underscore');
+var Immutable = require('immutable');
 
 class HistogramApi  {
   getData(segmentation, projection) {
@@ -62,10 +64,12 @@ class HistogramApi  {
       }
     };
 
+    var resolvedData = this.getSegmentationData(data, segmentation);
+
     return new Promise(function(resolve, reject) {
       setTimeout(function() {
         if (Math.random() < 1) {
-          resolve(data[segmentation]);
+          resolve(resolvedData);
         } else {
           reject(new Error("Error!!!"));
         }
@@ -73,6 +77,29 @@ class HistogramApi  {
     })
   }
   
+  getSegmentationData(data, segmentation){
+    if(typeof segmentation === 'string') {
+      if(_.has(data, segmentation)){
+        return data[segmentation];
+      }
+    }
+    if(typeof segmentation === 'object') {
+      var result;
+      
+      segmentation.map(segment => {
+        if(_.has(data, segment.value)) {
+          result = data[segment.value];
+        }
+      });
+
+      result = result || data.male;
+      return result;
+    }
+
+    return data.male;
+
+  }
+
 }
 
 module.exports = new HistogramApi();
